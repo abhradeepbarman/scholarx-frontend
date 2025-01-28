@@ -11,16 +11,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Register() {
     return (
         <div className="min-h-screen flex items-center justify-center">
             <Card className="w-2xl">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl text-center">
-                        Login to your account
+                        Create an Account
                     </CardTitle>
                     <CardDescription>
-                        Enter your credentials below to login to your account
+                        Enter your credentials below to create your account
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
@@ -50,12 +50,12 @@ function Login() {
                 <CardFooter className="flex flex-col items-start gap-2 text-sm">
                     <Button className="w-full">Login</Button>
                     <p>
-                        Don&apos;t have an account? please{" "}
+                        Already have an account? please{" "}
                         <Link
-                            to="/auth/register"
+                            to="/auth/login"
                             className="underline font-semibold"
                         >
-                            register
+                            login
                         </Link>
                     </p>
                 </CardFooter>
@@ -64,4 +64,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;
