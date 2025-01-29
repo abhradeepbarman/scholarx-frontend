@@ -1,5 +1,6 @@
 import { LoginInput } from "@/@types/auth/login.types";
 import { ErrorType } from "@/@types/error/error.types";
+import { RootState } from "@/app/store";
 import Loader from "@/components/common/Loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,11 +13,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { UserRole } from "@/config/constants";
 import { setCredentials } from "@/features/auth/authSlice";
 import { useUserLoginMutation } from "@/features/auth/loginApiSlice";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
@@ -29,13 +31,19 @@ function Login() {
     const [userLogin, { isLoading }] = useUserLoginMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { role } = useSelector((state: RootState) => state.auth);
 
     const onSubmit = async (data: LoginInput) => {
         try {
             const response = await userLogin(data).unwrap();
             dispatch(setCredentials(response.data));
             toast.success(response.message as string);
-            navigate("/");
+
+            if (role === UserRole.STUDENT) {
+                navigate("/student/dashboard");
+            } else if (role === UserRole.ORGANIZATION) {
+                navigate("/org/dashboard");
+            }
         } catch (error) {
             console.log(error);
             const apiError = error as ErrorType;
