@@ -2,8 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Home from "./pages/Home/Home";
-import Dashboard from "./pages/Dashboard/Dashboard";
 import { AuthenticateRoutes, OrgRoutes, StudentRoutes } from "./routes";
+import DashboardLayout from "./layout/DashboardLayout";
+import { Dashboard as StudentDashboard } from "./pages/Student/Dashboard/Dashboard";
+import { Dashboard as OrgDashboard } from "./pages/Organization/Dashboard/Dashboard";
 
 function App() {
     return (
@@ -27,17 +29,19 @@ function App() {
                     }
                 />
             </Route>
-            
+
             {/* Student Routes  */}
             <Route path="student">
                 <Route
                     path="dashboard"
                     element={
                         <StudentRoutes>
-                            <Dashboard />
+                            <DashboardLayout />
                         </StudentRoutes>
                     }
-                />
+                >
+                    <Route path="" element={<StudentDashboard />} />
+                </Route>
             </Route>
 
             {/* Org Routes  */}
@@ -46,10 +50,12 @@ function App() {
                     path="dashboard"
                     element={
                         <OrgRoutes>
-                            <Dashboard />
+                            <DashboardLayout />
                         </OrgRoutes>
                     }
-                />
+                >
+                    <Route path="" element={<OrgDashboard />} />
+                </Route>
             </Route>
         </Routes>
     );
