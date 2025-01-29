@@ -12,7 +12,7 @@ const initialState: AuthState = {
 };
 
 export const authSlice = createSlice({
-    name: "counter",
+    name: "user",
     initialState,
     reducers: {
         setCredentials: (state: AuthState, action) => {
