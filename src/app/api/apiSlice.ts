@@ -14,6 +14,32 @@ const baseQuery = fetchBaseQuery({
     },
 });
 
+// const baseQueryWithRefresh = async (args: any, api: any, extraOptions: any) => {
+//     let result = await baseQuery(args, api, extraOptions);
+
+//     if (result.error && result.error.status === 401) {
+//         // Attempt to refresh token
+//         const refreshResult = await baseQuery(
+//             { url: "/auth/refresh", method: "POST" },
+//             api,
+//             extraOptions
+//         );
+
+//         if (refreshResult.data) {
+//             // Store the new access token
+//             api.dispatch({
+//                 type: "auth/setAccessToken",
+//                 payload: refreshResult.data.access_token,
+//             });
+
+//             // Retry the original request with the new token
+//             result = await baseQuery(args, api, extraOptions);
+//         }
+//     }
+
+//     return result;
+// };
+
 export const apiSlice = createApi({
     baseQuery,
     refetchOnFocus: true,
