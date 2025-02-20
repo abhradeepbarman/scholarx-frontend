@@ -17,6 +17,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { useNavigate } from "react-router-dom";
 
 export function NavMain({
     items,
@@ -32,6 +33,7 @@ export function NavMain({
         }[];
     }[];
 }) {
+    const navigate = useNavigate();
     return (
         <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -45,10 +47,15 @@ export function NavMain({
                     >
                         <SidebarMenuItem>
                             <CollapsibleTrigger asChild>
-                                <SidebarMenuButton tooltip={item.title}>
+                                <SidebarMenuButton
+                                    tooltip={item.title}
+                                    onClick={() => navigate(item?.url)}
+                                >
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>
-                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                    {item.items && (
+                                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                    )}
                                 </SidebarMenuButton>
                             </CollapsibleTrigger>
                             <CollapsibleContent>

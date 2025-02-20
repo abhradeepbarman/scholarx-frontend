@@ -1,11 +1,13 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
+import DashboardLayout from "./layout/common/DashboardLayout";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Home from "./pages/Home/Home";
-import { AuthenticateRoutes, OrgRoutes, StudentRoutes } from "./routes";
-import DashboardLayout from "./layout/DashboardLayout";
-import { Dashboard as StudentDashboard } from "./pages/Student/Dashboard/Dashboard";
 import { Dashboard as OrgDashboard } from "./pages/Organization/Dashboard/Dashboard";
+import { AuthenticateRoutes, OrgRoutes, StudentRoutes } from "./routes";
+import AddScholarship from "./pages/Organization/Scholarships/AddScholarship";
+import ViewScholarships from "./pages/Organization/Scholarships/ViewScholarships";
+import ViewApplications from "./pages/Organization/Applications/ViewApplications";
 
 function App() {
     return (
@@ -40,22 +42,27 @@ function App() {
                         </StudentRoutes>
                     }
                 >
-                    <Route path="" element={<StudentDashboard />} />
+                    {/* <Route path="" element={<StudentDashboard />} /> */}
                 </Route>
             </Route>
 
             {/* Org Routes  */}
-            <Route path="org">
+            <Route
+                path="org"
+                element={
+                    <OrgRoutes>
+                        <DashboardLayout />
+                    </OrgRoutes>
+                }
+            >
+                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route path="dashboard" element={<OrgDashboard />} />
+                <Route path="scholarships/add" element={<AddScholarship />} />
                 <Route
-                    path="dashboard"
-                    element={
-                        <OrgRoutes>
-                            <DashboardLayout />
-                        </OrgRoutes>
-                    }
-                >
-                    <Route path="" element={<OrgDashboard />} />
-                </Route>
+                    path="scholarships/view"
+                    element={<ViewScholarships />}
+                />
+                <Route path="applications" element={<ViewApplications />} />
             </Route>
         </Routes>
     );

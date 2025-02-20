@@ -1,55 +1,34 @@
 "use client";
 
-import * as React from "react";
 import {
-    AudioWaveform,
     BookOpen,
     Bot,
-    Command,
-    Frame,
-    GalleryVerticalEnd,
-    Map,
     PieChart,
     Settings2,
     SquareTerminal,
 } from "lucide-react";
+import * as React from "react";
 
+import { RootState } from "@/app/store";
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import { TeamSwitcher } from "./team-switcher";
+import { UserRole } from "@/config/constants";
+import { useSelector } from "react-redux";
 import { NavMain } from "./nav-main";
-import { NavProjects } from "./nav-projects";
 import { NavUser } from "./nav-user";
 
-// This is sample data.
+// TODO: Fill actual Data
+
 const data = {
     user: {
         name: "shadcn",
         email: "m@example.com",
         avatar: "/avatars/shadcn.jpg",
     },
-    teams: [
-        {
-            name: "Acme Inc",
-            logo: GalleryVerticalEnd,
-            plan: "Enterprise",
-        },
-        {
-            name: "Acme Corp.",
-            logo: AudioWaveform,
-            plan: "Startup",
-        },
-        {
-            name: "Evil Corp.",
-            logo: Command,
-            plan: "Free",
-        },
-    ],
     navMain: [
         {
             title: "Playground",
@@ -137,34 +116,70 @@ const data = {
             ],
         },
     ],
-    projects: [
+};
+
+const OrgSidebarContent = {
+    navMain: [
         {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
+            title: "Dashboard",
+            url: "/org/dashboard",
+            icon: SquareTerminal,
         },
         {
-            name: "Sales & Marketing",
+            title: "Scholarships",
+            url: "#",
+            icon: SquareTerminal,
+            isActive: true,
+            items: [
+                {
+                    title: "Add Scholarship",
+                    url: "/org/scholarships/add",
+                },
+                {
+                    title: "View Scholarships",
+                    url: "/org/scholarships/view",
+                },
+            ],
+        },
+        {
+            title: "Applications",
+            url: "/org/applications",
+            icon: SquareTerminal,
+        },
+    ],
+    projects: [
+        {
+            name: "Hello",
             url: "#",
             icon: PieChart,
         },
+    ],
+};
+
+const StudentSidebarContent = {
+    navMain: [
         {
-            name: "Travel",
-            url: "#",
-            icon: Map,
+            title: "Dashboard",
+            url: "/student/dashboard",
+            icon: SquareTerminal,
+            isActive: true,
         },
     ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const { role } = useSelector((state: RootState) => state.auth);
+
     return (
         <Sidebar collapsible="icon" {...props}>
-            <SidebarHeader>
-                <TeamSwitcher teams={data.teams} />
-            </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
+                <NavMain
+                    items={
+                        role === UserRole.STUDENT
+                            ? StudentSidebarContent.navMain
+                            : OrgSidebarContent.navMain
+                    }
+                />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />

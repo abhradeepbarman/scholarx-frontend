@@ -8,8 +8,6 @@ function OrgRoutes({ children }: { children: React.ReactNode }) {
         (state: RootState) => state.auth
     );
 
-    console.log(role, access_token);
-
     if (!access_token) {
         return <Navigate to={"/auth/login"} />;
     }
